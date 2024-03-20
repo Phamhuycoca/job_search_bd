@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "EZeXnH2bcMjxFOhvebVlTek+UgZATfwYyrB4cZ+dC4o=",
+  "Source": "job_search_be.Api",
+  "BasePath": "_content/job_search_be.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
