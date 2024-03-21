@@ -81,3 +81,4 @@ F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Application.dll
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Application.pdb
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Newtonsoft.Json.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

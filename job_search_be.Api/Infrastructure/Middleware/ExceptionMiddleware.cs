@@ -1,4 +1,5 @@
-﻿using job_search_be.Application.Wrappers.Concrete;
+﻿using job_search_be.Application.Wrappers.Abstract;
+using job_search_be.Application.Wrappers.Concrete;
 using job_search_be.Infrastructure.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -24,29 +25,17 @@ namespace job_search_be.Api.Infrastructure.Middleware
                 await _next(httpContext);
                 if (httpContext.Response is HttpResponse response && response.StatusCode == 404)
                 {
-                    await response.WriteAsJsonAsync(new
-                    {
-                        message = "Not Found"
-                    });
+                    await response.WriteAsJsonAsync(new ErrorResponse(response.StatusCode, "Not Found"));
                 }
                 else if (httpContext.Response is HttpResponse forbiddenResponse && forbiddenResponse.StatusCode == 403)
                 {
-                    await forbiddenResponse.WriteAsJsonAsync(new
-                    {
-                        error = "insufficient_permissions",
-                        error_description = "Insufficient permissions to access resource",
-                        message = "Permission denied"
-                    });
+                    await forbiddenResponse.WriteAsJsonAsync(new ErrorResponse(forbiddenResponse.StatusCode, "Permission denied"));
                 }
                 else if (httpContext.Response is HttpResponse unauthorizedResponse && unauthorizedResponse.StatusCode == 401)
                 {
-                    await unauthorizedResponse.WriteAsJsonAsync(
-                        new
-                        {
-                            message = httpContext.Request.Headers.ContainsKey("Authorization")
+                    await unauthorizedResponse.WriteAsJsonAsync(new ErrorResponse(unauthorizedResponse.StatusCode, httpContext.Request.Headers.ContainsKey("Authorization")
                                             ? "Bad credentials"
-                                            : "Requires authentication"
-                        });
+                                            : "Unauthentication"));
                 }
             }
             catch (Exception e)
