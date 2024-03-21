@@ -1,3 +1,14 @@
+﻿using job_search_be.Api.Infrastructure.Extensions;
+using job_search_be.Application.Helpers;
+using job_search_be.Domain.Entity;
+using job_search_be.Infrastructure.Context;
+using job_search_be.Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +18,67 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+
+
+
+
+
+
+
+
+
+//ConnectStrings
+builder.Services.AddDbContext<job_search_DbContext>(option =>
+option.UseSqlServer(builder.Configuration.GetConnectionString("Base_Context")));
 var app = builder.Build();
+
+
+
+// Seed data
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var services = scope.ServiceProvider;
+        var dbContext = services.GetRequiredService<job_search_DbContext>();
+
+        await dbContext.Database.MigrateAsync();
+
+        if (!dbContext.Users.Any())
+        {
+            DateTime now = DateTime.Now;
+            string password = "12345678a";
+
+            await dbContext.Users.AddAsync(
+                new User
+                {
+                    //createdAt = DateTime.Today.AddDays(1).AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second),
+                    createdAt=DateTime.Now,
+                    FullName = "Phạm Khắc Huy",
+                    Email = "Phamkhachuy240702@gmail.com",
+                    Role = "Admin",
+                    Gender = "Nam",
+                    PassWord = PasswordHelper.CreateHashedPassword(password),
+                    Address = "Hải phòng",
+                    Avatar = "https://res.cloudinary.com/drhdgw1xx/image/upload/v1709880283/m76gmmyuzzv3phiyuy2u.jpg",
+                    PhoneNumber = "0325472224",
+                    Is_Active = false,
+                }
+            );
+            await dbContext.SaveChangesAsync();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+        throw new ApiException(400, $"An error occurred: {ex.Message}");
+    }
+}
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -16,8 +87,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCustomExceptionMiddleware();
+app.UseAuthentication();
+app.UseCors(builder =>
+{
+    builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

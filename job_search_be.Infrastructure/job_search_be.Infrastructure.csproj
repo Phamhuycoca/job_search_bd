@@ -15,4 +15,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Settings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\job_search_be.Domain\job_search_be.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

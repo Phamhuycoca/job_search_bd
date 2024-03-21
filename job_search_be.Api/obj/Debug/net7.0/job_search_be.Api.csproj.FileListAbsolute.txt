@@ -74,3 +74,10 @@ F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\obj\Debug\net7.0\ref
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\obj\Debug\net7.0\job_search_be.Api.pdb
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\obj\Debug\net7.0\job_search_be.Api.genruntimeconfig.cache
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\obj\Debug\net7.0\ref\job_search_be.Api.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Domain.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Infrastructure.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Infrastructure.pdb
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Domain.pdb
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Application.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Application.pdb
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Newtonsoft.Json.dll
