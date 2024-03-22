@@ -22,6 +22,45 @@ namespace job_search_be.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("job_search_be.Domain.Entity.Permission", b =>
+                {
+                    b.Property<Guid>("PermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("createdBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("deletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("deletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("updatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PermissionId");
+
+                    b.ToTable("Permissions", (string)null);
+                });
+
             modelBuilder.Entity("job_search_be.Domain.Entity.Refresh_Token", b =>
                 {
                     b.Property<Guid>("UserId")

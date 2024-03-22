@@ -1,6 +1,8 @@
 ﻿using job_search_be.Application.Helpers;
 using job_search_be.Application.IService;
 using job_search_be.Application.Wrappers.Concrete;
+using job_search_be.Infrastructure.Common.Utilities;
+using job_search_be.Infrastructure.Enum;
 using job_search_be.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +26,7 @@ namespace job_search_be.Api.Controllers
             _userService = userService;
             _logger = logger;
         }
-        [Authorize]
-
+        [HasPermission(Permission.List)]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

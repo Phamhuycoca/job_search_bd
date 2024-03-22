@@ -14,6 +14,7 @@ namespace job_search_be.Infrastructure.Context
         public virtual DbSet<User> Users { get; set; }      
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Refresh_Token> RefreshTokens { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -27,6 +28,11 @@ namespace job_search_be.Infrastructure.Context
             {
                 e.ToTable("Roles");
                 e.HasKey(e => e.RoleId);
+            });
+            modelBuilder.Entity<Permission>(e =>
+            {
+                e.ToTable("Permissions");
+                e.HasKey(e => e.PermissionId);
             });
             modelBuilder.Entity<Refresh_Token>(e =>
             {
