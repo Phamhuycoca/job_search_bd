@@ -100,7 +100,6 @@ using (var scope = app.Services.CreateScope())
                     createdAt=DateTime.Now,
                     FullName = "Phạm Khắc Huy",
                     Email = "Phamkhachuy240702@gmail.com",
-                    Role = "Admin",
                     Gender = "Nam",
                     PassWord = PasswordHelper.CreateHashedPassword(password),
                     Address = "Hải phòng",

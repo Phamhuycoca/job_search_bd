@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using job_search_be.Domain.Dto.Auth;
+using job_search_be.Domain.Dto.Role;
 using job_search_be.Domain.Dto.User;
 using job_search_be.Domain.Entity;
 using System;
@@ -20,6 +21,8 @@ namespace job_search_be.Domain.Mapping
 
             //Auth
             CreateMap<User,LoginDto>().ReverseMap();
+            //Role 
+            CreateMap<Role,RoleDto>().ReverseMap();
 
         }
     }

@@ -12,7 +12,7 @@ namespace job_search_be.Application.IService
 {
     public interface IUserService
     {
-        PagedDataResponse<UserDto> Items(CommonListQuery query);
+        PagedDataResponse<UserDto> Items(CommonListQuery commonQuery);
         DataResponse<User> Delete(Guid id);
         DataResponse<User> GetById(Guid id);
 

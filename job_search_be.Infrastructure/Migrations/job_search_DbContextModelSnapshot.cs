@@ -22,6 +22,41 @@ namespace job_search_be.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("job_search_be.Domain.Entity.Role", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameRole")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("createdBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("deletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("deletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("updatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
             modelBuilder.Entity("job_search_be.Domain.Entity.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -55,8 +90,8 @@ namespace job_search_be.Infrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("createdAt")
                         .HasColumnType("datetime2");
@@ -78,7 +113,23 @@ namespace job_search_be.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("job_search_be.Domain.Entity.User", b =>
+                {
+                    b.HasOne("job_search_be.Domain.Entity.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("job_search_be.Domain.Entity.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

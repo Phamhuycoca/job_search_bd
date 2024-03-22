@@ -14,6 +14,7 @@ namespace job_search_be.Infrastructure.Module
         public static IServiceCollection AddInfrastructureModule(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             return services;
         }
     }
