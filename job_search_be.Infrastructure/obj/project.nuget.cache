@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kNVz7M//uTKG1G0iQTQHzdaCJ/3dx9lGIIzPoxksVNWVJiqO+BY1outjNBEK520F7W8nU4nHWXsPjEM/o+N6qw==",
+  "dgSpecHash": "N/UmXWch5juGP4UUgCy7mQlhcyyn5kEbl4Zj2tBW9HYYY8oULrH9sRiRLDLJyQiL2jBUmUSNpGOXB/2wAe4Rmw==",
   "success": true,
   "projectFilePath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Infrastructure\\job_search_be.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

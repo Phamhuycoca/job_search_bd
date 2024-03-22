@@ -1,3 +1,7 @@
+﻿using job_search_be.Application.Helpers;
+using job_search_be.Application.IService;
+using job_search_be.Application.Wrappers.Concrete;
+using job_search_be.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +11,7 @@ namespace job_search_be.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IUserService _userService;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -14,8 +19,9 @@ namespace job_search_be.Api.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,IUserService userService)
         {
+            _userService = userService;
             _logger = logger;
         }
         [Authorize]
@@ -30,6 +36,12 @@ namespace job_search_be.Api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpGet("Users")]
+        public IActionResult GetUser([FromQuery] CommonListQuery query)
+        {
+                return Ok(_userService.Items(query));
+           
         }
     }
 }

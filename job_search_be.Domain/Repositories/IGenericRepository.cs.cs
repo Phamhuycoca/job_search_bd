@@ -1,4 +1,5 @@
-﻿using System;
+﻿using job_search_be.Domain.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace job_search_be.Domain.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : BaseEntity
     {
         List<T> GetAllData();
-        T GetById(long id);
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(long id);
+        T GetById(Guid id);
+        T Create(T entity);
+        T Update(T entity);
+        T Delete(Guid id);
     }
 }

@@ -12,3 +12,8 @@ F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\obj\Debug\ne
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\obj\Debug\net7.0\job_search_be.Application.pdb
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\obj\Debug\net7.0\job_search_be.Application.genruntimeconfig.cache
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\obj\Debug\net7.0\ref\job_search_be.Application.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\bin\Debug\net7.0\job_search_be.Domain.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\bin\Debug\net7.0\job_search_be.Domain.pdb
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\obj\Debug\net7.0\job_search_be.Application.csproj.CopyComplete
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\bin\Debug\net7.0\job_search_be.Infrastructure.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Application\bin\Debug\net7.0\job_search_be.Infrastructure.pdb

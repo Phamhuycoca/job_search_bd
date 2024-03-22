@@ -1,5 +1,6 @@
 ﻿using job_search_be.Api.Infrastructure.Extensions;
 using job_search_be.Application.Helpers;
+using job_search_be.Application.Module;
 using job_search_be.Domain.Entity;
 using job_search_be.Infrastructure.Context;
 using job_search_be.Infrastructure.Exceptions;
@@ -12,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +22,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplicationModules();
 
 //Jwt
 builder.Services.AddSwaggerGen(c =>

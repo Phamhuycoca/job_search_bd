@@ -1,5 +1,7 @@
-﻿using job_search_be.Domain.Repositories;
+﻿using job_search_be.Domain.BaseModel;
+using job_search_be.Domain.Repositories;
 using job_search_be.Infrastructure.Context;
+using job_search_be.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace job_search_be.Infrastructure.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
 
         private readonly job_search_DbContext _context;
@@ -23,15 +25,18 @@ namespace job_search_be.Infrastructure.Repositories
         {
             return _dbSet.ToList();
         }
-        public void Create(T entity)
+        public T Create(T entity)
         {
             try
             {
                 if (!_dbSet.Any(e => e == entity))
                 {
+                    entity.createdAt = DateTime.Now;
                     _dbSet.Add(entity);
                     _context.SaveChanges();
+                    return entity;
                 }
+                return null;
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -40,7 +45,7 @@ namespace job_search_be.Infrastructure.Repositories
             }
         }
 
-        public void Delete(long id)
+        public T Delete(Guid id)
         {
             try
             {
@@ -49,7 +54,9 @@ namespace job_search_be.Infrastructure.Repositories
                 {
                     _dbSet.Remove(entity);
                     _context.SaveChanges();
+                    return entity;
                 }
+                return null;
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -59,21 +66,22 @@ namespace job_search_be.Infrastructure.Repositories
         }
 
 
-        public T GetById(long id)
+        public T GetById(Guid id)
         {
             return _dbSet.Find(id);
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             if (!_dbSet.Any(e => e == entity))
             {
-                throw new Exception("Not found");
+                throw new ApiException(404, "Không tìm thấy thông tin");
             }
             _context.Entry(entity).State = EntityState.Modified;
             try
             {
                 _context.SaveChanges();
+                return entity;
             }
             catch (DbUpdateConcurrencyException ex)
             {

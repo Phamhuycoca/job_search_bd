@@ -82,3 +82,7 @@ F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\job_search_be.Application.pdb
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Newtonsoft.Json.dll
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\AutoMapper.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\MediatR.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\MediatR.Contracts.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll

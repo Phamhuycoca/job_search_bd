@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using job_search_be.Domain.Repositories;
+using job_search_be.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace job_search_be.Infrastructure.Module
     {
         public static IServiceCollection AddInfrastructureModule(this IServiceCollection services)
         {
-            //services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

@@ -31,6 +31,9 @@
               "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Application\\job_search_be.Application.csproj": {
                 "projectPath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Application\\job_search_be.Application.csproj"
               },
+              "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Domain\\job_search_be.Domain.csproj": {
+                "projectPath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Domain\\job_search_be.Domain.csproj"
+              },
               "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Infrastructure\\job_search_be.Infrastructure.csproj": {
                 "projectPath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Infrastructure\\job_search_be.Infrastructure.csproj"
               }
@@ -124,7 +127,14 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Domain\\job_search_be.Domain.csproj": {
+                "projectPath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Domain\\job_search_be.Domain.csproj"
+              },
+              "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Infrastructure\\job_search_be.Infrastructure.csproj": {
+                "projectPath": "F:\\Đồ án tốt nghiệp\\job_search_be\\job_search_be.Infrastructure\\job_search_be.Infrastructure.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -137,6 +147,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.17, )"
@@ -208,6 +226,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.17, )"
