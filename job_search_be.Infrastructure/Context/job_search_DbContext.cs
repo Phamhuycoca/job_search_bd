@@ -31,8 +31,8 @@ namespace job_search_be.Infrastructure.Context
             modelBuilder.Entity<Refresh_Token>(e =>
             {
                 e.ToTable("RefreshTokens");
-                e.HasKey(e => e.Refresh_TokenId);
-                e.HasOne(e => e.User).WithOne(e => e.RefreshToken).HasForeignKey<User>(e => e.UserId);
+                e.HasKey(e => e.UserId);
+                e.HasOne(e=>e.User).WithMany(e=>e.Refresh_Tokens).HasForeignKey(e=>e.UserId).OnDelete(DeleteBehavior.ClientSetNull);
             });
         }
     }

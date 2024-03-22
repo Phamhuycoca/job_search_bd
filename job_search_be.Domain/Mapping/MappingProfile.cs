@@ -21,6 +21,7 @@ namespace job_search_be.Domain.Mapping
 
             //Auth
             CreateMap<User,LoginDto>().ReverseMap();
+            CreateMap<Refresh_Token,RefreshTokenDto>().ReverseMap();
             //Role 
             CreateMap<Role,RoleDto>().ReverseMap();
 

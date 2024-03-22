@@ -20,7 +20,6 @@ namespace job_search_be.Domain.Entity
         public Guid? RoleId { get; set; }
         public bool? Is_Active { get; set; }
         public Role? Role { get; set; }
-        public Guid? Refresh_TokenId { get; set; }
-        public Refresh_Token? RefreshToken { get; set; }
+        public virtual ICollection<Refresh_Token>? Refresh_Tokens { get; set; }
     }
 }

@@ -22,6 +22,46 @@ namespace job_search_be.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("job_search_be.Domain.Entity.Refresh_Token", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RefreshTokenExpiration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Refresh_TokenExpires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("createdBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("deletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("deletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("updatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
             modelBuilder.Entity("job_search_be.Domain.Entity.Role", b =>
                 {
                     b.Property<Guid>("RoleId")
@@ -118,6 +158,16 @@ namespace job_search_be.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("job_search_be.Domain.Entity.Refresh_Token", b =>
+                {
+                    b.HasOne("job_search_be.Domain.Entity.User", "User")
+                        .WithMany("Refresh_Tokens")
+                        .HasForeignKey("UserId")
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("job_search_be.Domain.Entity.User", b =>
                 {
                     b.HasOne("job_search_be.Domain.Entity.Role", "Role")
@@ -130,6 +180,11 @@ namespace job_search_be.Infrastructure.Migrations
             modelBuilder.Entity("job_search_be.Domain.Entity.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("job_search_be.Domain.Entity.User", b =>
+                {
+                    b.Navigation("Refresh_Tokens");
                 });
 #pragma warning restore 612, 618
         }

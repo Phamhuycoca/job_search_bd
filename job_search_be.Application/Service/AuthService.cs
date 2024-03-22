@@ -27,13 +27,15 @@ namespace job_search_be.Application.Service
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
 
-        public AuthService(IOptions<JWTSettings> jwtSettings, IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository)
+        public AuthService(IOptions<JWTSettings> jwtSettings, IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository)
         {
             _jwtSettings = jwtSettings.Value;
             _userRepository = userRepository;
             _mapper = mapper;
             _roleRepository = roleRepository;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public DataResponse<TokenDto> Login(LoginDto dto)
@@ -56,8 +58,9 @@ namespace job_search_be.Application.Service
                     {
                         roleNames.Add(role.NameRole);
                     }
-                    //return null;
-                    return new DataResponse<TokenDto>(CreateToken(user, roleNames), 200, "Đăng nhập thành công");
+                user.Is_Active = true;
+                _userRepository.Update(user);
+                return new DataResponse<TokenDto>(CreateToken(user, roleNames), 200, "Đăng nhập thành công");
                 }
           
                 throw new ApiException(401, "Đăng nhập thất bại");
@@ -74,7 +77,6 @@ namespace job_search_be.Application.Service
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience[0],
                 expires: accessTokenExpiration,
-                //expires: DateTime.Now.AddMinutes(2),
                  notBefore: DateTime.Now,
                  claims: GetClaims(user, _jwtSettings.Audience, roles),
                  signingCredentials: signingCredentials);
@@ -89,11 +91,22 @@ namespace job_search_be.Application.Service
                 RefreshToken = CreateRefreshToken(),
                 AccessTokenExpiration = (int)((DateTimeOffset)accessTokenExpiration).ToUnixTimeSeconds(),
                 RefreshTokenExpiration = (int)((DateTimeOffset)refreshTokenExpiration).ToUnixTimeSeconds()
-          /*      AccessTokenExpiration = accessTokenExpiration,
-                RefreshTokenExpiration = refreshTokenExpiration*/
             };
-            user.Is_Active = true;
-            _userRepository.Update(user);
+            var refresh_token = new RefreshTokenDto
+            {
+                UserId = user.UserId,
+                RefreshToken = CreateRefreshToken(),
+                RefreshTokenExpiration = (int)((DateTimeOffset)refreshTokenExpiration).ToUnixTimeSeconds(),
+                Refresh_TokenExpires = refreshTokenExpiration
+            };
+            if (_refreshTokenRepository.GetById(user.UserId) == null)
+            {
+                _refreshTokenRepository.Create(_mapper.Map<Refresh_Token>(refresh_token));
+            }
+            else
+            {
+                _refreshTokenRepository.Update(_mapper.Map<Refresh_Token>(refresh_token));
+            }
             return tokenDto;
         }
 
