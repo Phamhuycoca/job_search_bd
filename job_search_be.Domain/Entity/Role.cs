@@ -12,6 +12,8 @@ namespace job_search_be.Domain.Entity
         public Guid RoleId { get; set; }
         public string? NameRole { get; set; }
         public virtual ICollection<User>? Users { get; set; }
+        public Guid? PermissionId { get; set; }
+        public Permission? Permission { get; set; }
 
     }
 }

@@ -28,42 +28,44 @@ namespace job_search_be.Application.Service
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly IUserService _userService;
 
-        public AuthService(IOptions<JWTSettings> jwtSettings, IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository)
+        public AuthService(IOptions<JWTSettings> jwtSettings, IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository, IRefreshTokenRepository refreshTokenRepository, IUserService userService)
         {
             _jwtSettings = jwtSettings.Value;
             _userRepository = userRepository;
             _mapper = mapper;
             _roleRepository = roleRepository;
             _refreshTokenRepository = refreshTokenRepository;
+            _userService = userService;
         }
 
         public DataResponse<TokenDto> Login(LoginDto dto)
         {
-                var user = _userRepository.GetAllData().Where(x => x.Email == dto.Email).SingleOrDefault();
-                if (user == null)
+            var user = _userRepository.GetAllData().Where(x => x.Email == dto.Email).SingleOrDefault();
+            if (user == null)
+            {
+                throw new ApiException(401, "Tài khoản không tồn tại");
+            }
+            var isPasswordValid = PasswordHelper.VerifyPassword(dto.Password, user.PassWord);
+            if (!isPasswordValid)
+            {
+                throw new ApiException(401, "Mật khẩu không chính xác");
+            }
+            else
+            {
+                var roles = _roleRepository.GetAllData().Where(x => x.RoleId == user.RoleId);
+                List<string> roleNames = new List<string>();
+                foreach (var role in roles)
                 {
-                    throw new ApiException(401, "Tài khoản không tồn tại");
+                    roleNames.Add(role.NameRole);
                 }
-                var isPasswordValid = PasswordHelper.VerifyPassword(dto.Password, user.PassWord);
-                if (!isPasswordValid)
-                {
-                    throw new ApiException(401, "Mật khẩu không chính xác");
-                }
-                else
-                {
-                    var roles = _roleRepository.GetAllData().Where(x=>x.RoleId==user.RoleId);
-                    List<string> roleNames = new List<string>();
-                    foreach (var role in roles)
-                    {
-                        roleNames.Add(role.NameRole);
-                    }
                 user.Is_Active = true;
                 _userRepository.Update(user);
                 return new DataResponse<TokenDto>(CreateToken(user, roleNames), 200, "Đăng nhập thành công");
-                }
-          
-                throw new ApiException(401, "Đăng nhập thất bại");
+            }
+
+            throw new ApiException(401, "Đăng nhập thất bại");
         }
         public TokenDto CreateToken(User user, List<string> roles)
         {
@@ -95,8 +97,8 @@ namespace job_search_be.Application.Service
             var refresh_token = new RefreshTokenDto
             {
                 UserId = user.UserId,
-                RefreshToken = CreateRefreshToken(),
-                RefreshTokenExpiration = (int)((DateTimeOffset)refreshTokenExpiration).ToUnixTimeSeconds(),
+                RefreshToken = tokenDto.RefreshToken,
+                RefreshTokenExpiration = tokenDto.RefreshTokenExpiration,
                 Refresh_TokenExpires = refreshTokenExpiration
             };
             if (_refreshTokenRepository.GetById(user.UserId) == null)
@@ -123,6 +125,8 @@ namespace job_search_be.Application.Service
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+            foreach (var permission in _userService.GetUserPermissions(user.UserId))
+                claims.Add(new Claim(CustomClaims.Permissions, permission.Name));
             claims.AddRange(audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
             return claims;
         }
@@ -134,5 +138,73 @@ namespace job_search_be.Application.Service
             rnd.GetBytes(numberByte);
             return Convert.ToBase64String(numberByte);
         }
+
+        public DataResponse<TokenDto> Refresh_Token(RefreshTokenSettings token)
+        {
+            var existRefreshToken = _refreshTokenRepository.GetAllData().Where(x => x.RefreshToken == token.Refresh_Token).FirstOrDefault();
+            if (existRefreshToken == null)
+            {
+                throw new ApiException(404, "Refresh Token Not Found");
+            }
+            var user = _userRepository.GetById(existRefreshToken.UserId);
+            if (user == null)
+            {
+                throw new ApiException(404, "User Not Found");
+            }
+            if (existRefreshToken.Refresh_TokenExpires < DateTime.Now)
+            {
+                throw new ApiException(404, "Refresh Token Expired");
+            }
+            var roles = _roleRepository.GetAllData().Where(x => x.RoleId == user.UserId);
+            List<string> roleNames = new List<string>();
+            foreach (var role in roles)
+            {
+                roleNames.Add(role.NameRole);
+            }
+            return new DataResponse<TokenDto>(RefreshToken(user, roleNames, _mapper.Map<RefreshTokenDto>(existRefreshToken)), 200, "Refresh token success");
+        }
+
+
+        public TokenDto RefreshToken(User user, List<string> roles,RefreshTokenDto refreshtoken)
+        {
+            var accessTokenExpiration = DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpiration);
+            var refreshTokenExpiration = DateTime.Now.AddMinutes(_jwtSettings.RefreshTokenExpiration);
+            var securityKey = Encoding.ASCII.GetBytes(_jwtSettings.SecurityKey);
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(securityKey),
+                SecurityAlgorithms.HmacSha256Signature);
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience[0],
+                expires: accessTokenExpiration,
+                 notBefore: DateTime.Now,
+                 claims: GetClaims(user, _jwtSettings.Audience, roles),
+                 signingCredentials: signingCredentials);
+
+            var handler = new JwtSecurityTokenHandler();
+
+            var token = handler.WriteToken(jwtSecurityToken);
+
+            var tokenDto = new TokenDto
+            {
+                AccessToken = token,
+                RefreshToken = CreateRefreshToken(),
+                AccessTokenExpiration = (int)((DateTimeOffset)accessTokenExpiration).ToUnixTimeSeconds(),
+                //RefreshTokenExpiration = (int)((DateTimeOffset)refreshTokenExpiration).ToUnixTimeSeconds()
+                RefreshTokenExpiration = refreshtoken.RefreshTokenExpiration
+            };
+            var refresh_token = new RefreshTokenDto
+            {
+                UserId = user.UserId,
+                RefreshToken = CreateRefreshToken(),
+                RefreshTokenExpiration = refreshtoken.RefreshTokenExpiration,
+                Refresh_TokenExpires = refreshtoken.Refresh_TokenExpires
+            };
+                _refreshTokenRepository.Update(_mapper.Map<Refresh_Token>(refresh_token));
+            return tokenDto;
+        }
+
+
+
+
     }
 }

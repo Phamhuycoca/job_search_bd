@@ -3,6 +3,7 @@ using job_search_be.Application.Helpers;
 using job_search_be.Application.IService;
 using job_search_be.Application.Wrappers.Abstract;
 using job_search_be.Application.Wrappers.Concrete;
+using job_search_be.Domain.Dto.Role;
 using job_search_be.Domain.Dto.User;
 using job_search_be.Domain.Entity;
 using job_search_be.Domain.Repositories;
@@ -19,11 +20,15 @@ namespace job_search_be.Application.Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        private readonly IPermissionRepository _permissionRepository;
+        private readonly IRoleRepository _roleRepository;
+        public UserService(IUserRepository userRepository, IMapper mapper, IPermissionRepository permissionRepository,IRoleRepository roleRepository)
         {
 
             _userRepository = userRepository;
             _mapper = mapper;
+            _permissionRepository = permissionRepository;
+            _roleRepository = roleRepository;
         }
 
         public DataResponse<User> Delete(Guid id)
@@ -41,6 +46,13 @@ namespace job_search_be.Application.Service
             throw new ApiException(400, "Lỗi không thể xóa");
         }
 
+        public List<Permission> GetUserPermissions(Guid id)
+        {
+            var user = _userRepository.GetById(id);
+            var role = _mapper.Map<RoleDto>(_roleRepository.GetById(user.RoleId ?? Guid.Empty));
+            var permissions = _permissionRepository.GetAllData().Where(e=>e.PermissionId==role.PermissionId).ToList();
+            return permissions;
+        }
         public PagedDataResponse<UserDto> Items(CommonListQuery commonQuery)
         {
             var query = _mapper.Map<List<UserDto>>(_userRepository.GetAllData());

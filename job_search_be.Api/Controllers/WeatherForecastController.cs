@@ -44,5 +44,10 @@ namespace job_search_be.Api.Controllers
                 return Ok(_userService.Items(query));
            
         }
+        [HttpGet("Hello")]
+        public IActionResult Hello()
+        {
+            return Ok("Hello");
+        }
     }
 }

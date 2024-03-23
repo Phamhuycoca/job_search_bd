@@ -11,5 +11,7 @@ namespace job_search_be.Domain.Dto.Role
     {
         public Guid RoleId { get; set; }
         public string? NameRole { get; set; }
+        public Guid? PermissionId { get; set; }
+
     }
 }

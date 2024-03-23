@@ -79,7 +79,7 @@ var app = builder.Build();
 
 
 // Seed data
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     try
     {
@@ -146,7 +146,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
+*/
 
 
 // Configure the HTTP request pipeline.

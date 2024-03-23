@@ -21,6 +21,7 @@ namespace job_search_be.Infrastructure.Module
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
             return services;
         }
     }

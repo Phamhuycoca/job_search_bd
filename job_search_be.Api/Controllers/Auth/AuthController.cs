@@ -1,5 +1,6 @@
 ﻿using job_search_be.Application.IService;
 using job_search_be.Domain.Dto.Auth;
+using job_search_be.Infrastructure.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,16 @@ namespace job_search_be.Api.Controllers.Auth
         public IActionResult Login(LoginDto dto)
         {
             return Ok(_authService.Login(dto));
+        }
+        [HttpPost("Refresh_token")]
+        public IActionResult Refresh_token([FromBody] RefreshTokenSettings refreshToken)
+        {
+            return Ok(_authService.Refresh_Token(refreshToken));
+        }
+        [HttpGet("Hello")]
+        public IActionResult Get()
+        {
+            return Ok("Ok");
         }
     }
 }

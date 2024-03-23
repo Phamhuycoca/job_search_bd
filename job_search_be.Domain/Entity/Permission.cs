@@ -16,5 +16,7 @@ namespace job_search_be.Domain.Entity
         public string Name { get; set; } = string.Empty;
 
         public bool IsDeleted { get; set; }
+        public ICollection<Role> Roles { get; set; }
+
     }
 }

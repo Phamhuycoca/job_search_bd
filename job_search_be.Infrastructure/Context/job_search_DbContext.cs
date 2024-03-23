@@ -28,6 +28,7 @@ namespace job_search_be.Infrastructure.Context
             {
                 e.ToTable("Roles");
                 e.HasKey(e => e.RoleId);
+                e.HasOne(e=>e.Permission).WithMany(e=>e.Roles).HasForeignKey(e=>e.PermissionId).OnDelete(DeleteBehavior.ClientSetNull);
             });
             modelBuilder.Entity<Permission>(e =>
             {
