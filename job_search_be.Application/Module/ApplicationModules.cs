@@ -27,6 +27,7 @@ namespace job_search_be.Application.Module
             services.AddSingleton(mapper);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRoleService, RoleService>();
             return services;
         }
     }

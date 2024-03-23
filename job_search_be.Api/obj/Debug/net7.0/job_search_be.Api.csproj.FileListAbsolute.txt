@@ -86,3 +86,7 @@ F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Aut
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\MediatR.dll
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\MediatR.Contracts.dll
 F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.AspNetCore.Authorization.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.AspNetCore.Metadata.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
+F:\Đồ án tốt nghiệp\job_search_be\job_search_be.Api\bin\Debug\net7.0\Microsoft.Extensions.Options.dll

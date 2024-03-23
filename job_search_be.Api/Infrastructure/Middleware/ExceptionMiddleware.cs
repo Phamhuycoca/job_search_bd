@@ -23,11 +23,7 @@ namespace job_search_be.Api.Infrastructure.Middleware
             try
             {
                 await _next(httpContext);
-                if (httpContext.Response is HttpResponse response && response.StatusCode == 404)
-                {
-                    await response.WriteAsJsonAsync(new ErrorResponse(response.StatusCode, "Not Found"));
-                }
-                else if (httpContext.Response is HttpResponse forbiddenResponse && forbiddenResponse.StatusCode == 403)
+                if (httpContext.Response is HttpResponse forbiddenResponse && forbiddenResponse.StatusCode == 403)
                 {
                     await forbiddenResponse.WriteAsJsonAsync(new ErrorResponse(forbiddenResponse.StatusCode, "Permission denied"));
                 }

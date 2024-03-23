@@ -60,7 +60,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
-
+builder.Services.AddAuthorization();
 
 
 
@@ -79,7 +79,7 @@ var app = builder.Build();
 
 
 // Seed data
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     try
     {
@@ -87,6 +87,35 @@ using (var scope = app.Services.CreateScope())
         var dbContext = services.GetRequiredService<job_search_DbContext>();
 
         await dbContext.Database.MigrateAsync();
+
+        if (!dbContext.Roles.Any())
+        {
+            List<Role> roles = new List<Role> 
+            {
+                new Role {RoleId=Guid.NewGuid(),NameRole="SuperAdmin"},
+                new Role {RoleId=Guid.NewGuid(),NameRole="Nhân viên"},
+                new Role {RoleId=Guid.NewGuid(),NameRole="Nhà tuyển dụng"},
+                new Role {RoleId=Guid.NewGuid(),NameRole="Người dùng"},
+            };
+            await dbContext.Roles.AddRangeAsync(roles);
+            await dbContext.SaveChangesAsync();
+        }
+
+
+
+        List<Permission> permissions = new List<Permission>
+        {
+            new Permission { PermissionId = Guid.NewGuid(), Name = "Read" },
+            new Permission { PermissionId = Guid.NewGuid(), Name = "List" },
+            new Permission { PermissionId = Guid.NewGuid(), Name = "Write" },
+            new Permission { PermissionId = Guid.NewGuid(), Name = "Modify" },
+            new Permission { PermissionId = Guid.NewGuid(), Name = "Delete" }
+        };
+        if (!dbContext.Permissions.Any())
+        {
+            await dbContext.Permissions.AddRangeAsync(permissions);
+            await dbContext.SaveChangesAsync();
+        }
 
         if (!dbContext.Users.Any())
         {
@@ -96,11 +125,9 @@ using (var scope = app.Services.CreateScope())
             await dbContext.Users.AddAsync(
                 new User
                 {
-                    //createdAt = DateTime.Today.AddDays(1).AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second),
-                    createdAt=DateTime.Now,
+                    createdAt = DateTime.Now,
                     FullName = "Phạm Khắc Huy",
                     Email = "Phamkhachuy240702@gmail.com",
-                    Role = "Admin",
                     Gender = "Nam",
                     PassWord = PasswordHelper.CreateHashedPassword(password),
                     Address = "Hải phòng",
@@ -119,7 +146,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
+*/
 
 
 // Configure the HTTP request pipeline.

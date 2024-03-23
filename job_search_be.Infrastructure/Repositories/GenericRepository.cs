@@ -73,20 +73,55 @@ namespace job_search_be.Infrastructure.Repositories
 
         public T Update(T entity)
         {
-            if (!_dbSet.Any(e => e == entity))
+            /*  if (!_dbSet.Any(e => e == entity))
+              {
+                  throw new ApiException(404, "Không tìm thấy thông tin");
+              }
+              _context.Entry(entity).State = EntityState.Modified;
+              try
+              {
+                  _context.SaveChanges();
+                  return entity;
+              }
+              catch (DbUpdateConcurrencyException ex)
+              {
+                  Console.WriteLine($"Error in Delete method: {ex.Message}");
+                  throw;
+              }*/
+            var entry = _context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
             {
-                throw new ApiException(404, "Không tìm thấy thông tin");
+                entity.updatedAt = DateTime.Now;
+                var existingEntity = _dbSet.Find(GetKeyValues(entity).ToArray());
+
+                if (existingEntity == null)
+                {
+                    throw new ApiException(404, "Không tìm thấy thông tin");
+                }
+
+                _context.Entry(existingEntity).CurrentValues.SetValues(entity);
             }
-            _context.Entry(entity).State = EntityState.Modified;
+
             try
             {
                 _context.SaveChanges();
                 return entity;
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
-                Console.WriteLine($"Error in Delete method: {ex.Message}");
                 throw;
+            }
+        }
+
+
+        private IEnumerable<object> GetKeyValues(T entity)
+        {
+            var keyProperties = _context.Model.FindEntityType(typeof(T)).FindPrimaryKey().Properties;
+
+            foreach (var property in keyProperties)
+            {
+                yield return property.PropertyInfo.GetValue(entity);
             }
         }
     }
