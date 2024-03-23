@@ -26,6 +26,7 @@ namespace job_search_be.Api.Controllers
             _userService = userService;
             _logger = logger;
         }
+        [Authorize]
         [HasPermission(Permission.List)]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()

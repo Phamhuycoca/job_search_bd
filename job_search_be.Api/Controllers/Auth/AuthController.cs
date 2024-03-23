@@ -1,6 +1,7 @@
 ﻿using job_search_be.Application.IService;
 using job_search_be.Domain.Dto.Auth;
 using job_search_be.Infrastructure.Settings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,7 @@ namespace job_search_be.Api.Controllers.Auth
         {
             return Ok(_authService.Refresh_Token(refreshToken));
         }
+        [Authorize]
         [HttpGet("Hello")]
         public IActionResult Get()
         {

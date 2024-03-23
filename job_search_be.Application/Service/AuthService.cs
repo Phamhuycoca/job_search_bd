@@ -165,7 +165,7 @@ namespace job_search_be.Application.Service
         }
 
 
-        public TokenDto RefreshToken(User user, List<string> roles,RefreshTokenDto refreshtoken)
+        public TokenDto RefreshToken(User user, List<string> roles, RefreshTokenDto refreshtoken)
         {
             var accessTokenExpiration = DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpiration);
             var refreshTokenExpiration = DateTime.Now.AddMinutes(_jwtSettings.RefreshTokenExpiration);
@@ -195,11 +195,11 @@ namespace job_search_be.Application.Service
             var refresh_token = new RefreshTokenDto
             {
                 UserId = user.UserId,
-                RefreshToken = CreateRefreshToken(),
+                RefreshToken = tokenDto.RefreshToken,
                 RefreshTokenExpiration = refreshtoken.RefreshTokenExpiration,
                 Refresh_TokenExpires = refreshtoken.Refresh_TokenExpires
             };
-                _refreshTokenRepository.Update(_mapper.Map<Refresh_Token>(refresh_token));
+            _refreshTokenRepository.Update(_mapper.Map<Refresh_Token>(refresh_token));
             return tokenDto;
         }
 
